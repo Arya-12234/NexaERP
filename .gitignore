@@ -4,3 +4,4 @@ node_modules/
 __pycache__/
 *.pyc
 db.sqlite3
+My_ERP/apps/Users/serviceAccountKey.json
