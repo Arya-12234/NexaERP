@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
-  Package, AlertTriangle, BarChart2, Warehouse,
+  Package, AlertTriangle, BarChart2,
   ShoppingCart, ArrowDown, ArrowUp, ArrowLeftRight,
   Wrench, FileText, CheckCircle, XCircle,
-  TrendingDown, Layers, Search, RefreshCw,
+  TrendingDown, Layers, Search,
 } from 'lucide-react';
 import axios from 'axios';
 
@@ -324,7 +324,7 @@ const ProductsPanel = () => {
   });
   const [creating, setCreating] = useState(false);
 
-  const loadProducts = () => {
+  const loadProducts = useCallback(() => {
     const params = {};
     if (search)                    params.search       = search;
     if (typeFilter)                params.product_type = typeFilter;
@@ -338,9 +338,9 @@ const ProductsPanel = () => {
         setCategories(c.data.results || c.data);
       })
       .finally(() => setLoading(false));
-  };
+  }, [search, typeFilter, stockFilter]);
 
-  useEffect(() => { loadProducts(); }, [search, typeFilter, stockFilter]);
+  useEffect(() => { loadProducts(); }, [loadProducts]);
 
   const selectProduct = async (p) => {
     const res = await inventoryApi.getProduct(p.id);
@@ -788,15 +788,15 @@ const POPanel = () => {
   const [err, setErr]           = useState('');
   const [statusFilter, setStatusFilter] = useState('');
 
-  const load = () => {
+  const load = useCallback(() => {
     setLoading(true);
     setMsg(''); setErr('');
     inventoryApi.getPOs(statusFilter ? { status: statusFilter } : {})
       .then(res => setPOs(res.data.results || res.data))
       .finally(() => setLoading(false));
-  };
+  }, [statusFilter]);
 
-  useEffect(() => { load(); }, [statusFilter]);
+  useEffect(() => { load(); }, [load]);
 
   const selectPO = async (po) => {
     setSelected(po); setPODetail(null); setMsg(''); setErr('');

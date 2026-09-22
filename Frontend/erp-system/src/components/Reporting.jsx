@@ -2,12 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import {
   BarChart2, FileText, Package, ShoppingCart,
   TrendingUp, DollarSign, AlertTriangle, Download,
-  RefreshCw, Calendar, Filter, Printer,
+  RefreshCw, Calendar, Filter,
 } from 'lucide-react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, Cell, PieChart, Pie, Legend,
-  AreaChart, Area, LineChart, Line,
+  ResponsiveContainer, Cell, Legend,
+  AreaChart, Area,
 } from 'recharts';
 import axios from 'axios';
 
@@ -509,7 +509,7 @@ const InventoryValuationPanel = () => {
       .finally(() => setLoading(false));
   }, [category]);
 
-  useEffect(() => { run(); }, []);
+  useEffect(() => { run(); }, [run]);
 
   const chartData = (data?.rows || [])
     .reduce((acc, r) => {
@@ -592,7 +592,7 @@ const StockMovementsPanel = () => {
       .finally(() => setLoading(false));
   }, [dateFrom, dateTo]);
 
-  useEffect(() => { run(); }, []);
+  useEffect(() => { run(); }, [run]);
 
   const typeData = (data?.rows || []).reduce((acc, r) => {
     const existing = acc.find(a => a.name === r.movement_type);
@@ -670,7 +670,7 @@ const SalesPanel = () => {
       .finally(() => setLoading(false));
   }, [dateFrom, dateTo]);
 
-  useEffect(() => { run(); }, []);
+  useEffect(() => { run(); }, [run]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -751,7 +751,7 @@ const PurchasePanel = () => {
       .finally(() => setLoading(false));
   }, [dateFrom, dateTo]);
 
-  useEffect(() => { run(); }, []);
+  useEffect(() => { run(); }, [run]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -828,7 +828,7 @@ const AssetRegisterPanel = () => {
       .finally(() => setLoading(false));
   }, [category]);
 
-  useEffect(() => { run(); }, []);
+  useEffect(() => { run(); }, [run]);
 
   const catData = (data?.rows || []).reduce((acc, r) => {
     const existing = acc.find(a => a.name === r.category);

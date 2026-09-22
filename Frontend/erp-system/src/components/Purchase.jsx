@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   BarChart2, Users, FileText, Package, Star,
   DollarSign, CheckCircle, XCircle, ChevronRight,
-  ThumbsUp, AlertTriangle, Clock, Send, TrendingUp,
+  ThumbsUp, Clock, Send, TrendingUp,
   Search, MapPin, Phone, Mail, Award,
 } from 'lucide-react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, Cell,
-  PieChart, Pie, Legend,
+  PieChart, Pie,
 } from 'recharts';
 import axios from 'axios';
 
@@ -303,14 +303,14 @@ const SuppliersPanel = () => {
   const [err, setErr]             = useState('');
   const [submitting, setSubmitting] = useState(false);
 
-  const load = () => {
+  const load = useCallback(() => {
     setLoading(true);
     purchaseApi.getSuppliers(search ? { search } : {})
       .then(r => setSuppliers(r.data.results || r.data))
       .finally(() => setLoading(false));
-  };
+  }, [search]);
 
-  useEffect(() => { load(); }, [search]);
+  useEffect(() => { load(); }, [load]);
 
   const selectSupplier = async (s) => {
     setSelected(s); setRatings(null); setMsg(''); setErr('');
@@ -502,14 +502,14 @@ const RequisitionsPanel = () => {
   const [showReject, setShowReject] = useState(false);
   const [rejectReason, setRejectReason] = useState('');
 
-  const load = () => {
+  const load = useCallback(() => {
     setLoading(true); setMsg(''); setErr('');
     purchaseApi.getRequisitions(statusFilter ? { status: statusFilter } : {})
       .then(r => setPRs(r.data.results || r.data))
       .finally(() => setLoading(false));
-  };
+  }, [statusFilter]);
 
-  useEffect(() => { load(); }, [statusFilter]);
+  useEffect(() => { load(); }, [load]);
 
   const select = async (pr) => {
     setSelected(pr); setDetail(null); setMsg(''); setErr('');
@@ -683,14 +683,14 @@ const GRNsPanel = () => {
   const [err, setErr]           = useState('');
   const [statusFilter, setStatusFilter] = useState('');
 
-  const load = () => {
+  const load = useCallback(() => {
     setLoading(true); setMsg(''); setErr('');
     purchaseApi.getGRNs(statusFilter ? { status: statusFilter } : {})
       .then(r => setGRNs(r.data.results || r.data))
       .finally(() => setLoading(false));
-  };
+  }, [statusFilter]);
 
-  useEffect(() => { load(); }, [statusFilter]);
+  useEffect(() => { load(); }, [load]);
 
   const select = async (g) => {
     setSelected(g); setDetail(null); setMsg(''); setErr('');
