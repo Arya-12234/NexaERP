@@ -1,6 +1,6 @@
-import firebase_admin
-from firebase_admin import credentials
+"""
+Legacy Firebase helper.
 
-cred = credentials.Certificate("serviceAccountKey.json")
-
-firebase_admin.initialize_app(cred)
+Initialization is handled in apps.Users.apps.UsersConfig.ready() so missing
+credentials do not break local development or the test suite.
+"""

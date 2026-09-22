@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   ShoppingCart, FileText, Package, Truck, BarChart2,
   CheckCircle, XCircle, ChevronRight, ThumbsUp,
-  Clock, AlertTriangle, Send, RefreshCw, Plus,
-  ArrowDown, ArrowUp, MapPin, User,
+  AlertTriangle, Send, RefreshCw,
+  ArrowDown, ArrowUp, MapPin,
 } from 'lucide-react';
 import axios from 'axios';
 
@@ -296,14 +296,14 @@ const SalesOrdersPanel = () => {
   const [showCancel, setShowCancel] = useState(false);
   const [cancelReason, setCancelReason] = useState('');
 
-  const load = () => {
+  const load = useCallback(() => {
     setLoading(true); setMsg(''); setErr('');
     ordersApi.getSalesOrders(statusFilter ? { status: statusFilter } : {})
       .then(r => setOrders(r.data.results || r.data))
       .finally(() => setLoading(false));
-  };
+  }, [statusFilter]);
 
-  useEffect(() => { load(); }, [statusFilter]);
+  useEffect(() => { load(); }, [load]);
 
   const select = async (o) => {
     setSelected(o); setDetail(null); setMsg(''); setErr('');
@@ -485,14 +485,14 @@ const PurchaseOrdersPanel = () => {
   const [err, setErr]           = useState('');
   const [statusFilter, setStatusFilter] = useState('');
 
-  const load = () => {
+  const load = useCallback(() => {
     setLoading(true); setMsg(''); setErr('');
     ordersApi.getPurchaseOrders(statusFilter ? { status: statusFilter } : {})
       .then(r => setOrders(r.data.results || r.data))
       .finally(() => setLoading(false));
-  };
+  }, [statusFilter]);
 
-  useEffect(() => { load(); }, [statusFilter]);
+  useEffect(() => { load(); }, [load]);
 
   const select = async (o) => {
     setSelected(o); setDetail(null); setMsg(''); setErr('');
@@ -645,14 +645,14 @@ const QuotationsPanel = () => {
   const [err, setErr]               = useState('');
   const [statusFilter, setStatusFilter] = useState('');
 
-  const load = () => {
+  const load = useCallback(() => {
     setLoading(true); setMsg(''); setErr('');
     ordersApi.getQuotations(statusFilter ? { status: statusFilter } : {})
       .then(r => setQuotations(r.data.results || r.data))
       .finally(() => setLoading(false));
-  };
+  }, [statusFilter]);
 
-  useEffect(() => { load(); }, [statusFilter]);
+  useEffect(() => { load(); }, [load]);
 
   const select = async (q) => {
     setSelected(q); setDetail(null); setMsg(''); setErr('');
@@ -798,14 +798,14 @@ const DeliveriesPanel = () => {
   const [err, setErr]               = useState('');
   const [statusFilter, setStatusFilter] = useState('');
 
-  const load = () => {
+  const load = useCallback(() => {
     setLoading(true); setMsg(''); setErr('');
     ordersApi.getDeliveries(statusFilter ? { status: statusFilter } : {})
       .then(r => setDeliveries(r.data.results || r.data))
       .finally(() => setLoading(false));
-  };
+  }, [statusFilter]);
 
-  useEffect(() => { load(); }, [statusFilter]);
+  useEffect(() => { load(); }, [load]);
 
   const select = async (d) => {
     setSelected(d); setDetail(null); setMsg(''); setErr('');

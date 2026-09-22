@@ -3,7 +3,7 @@ import {
   HelpCircle, MessageSquare, CheckCircle, Clock,
   AlertTriangle, Search, Plus, Send, ChevronDown,
   ChevronRight, Activity, Server, Database, Wifi,
-  X, Filter, Tag, User, Paperclip,
+  X,
 } from 'lucide-react';
 
 // ── Design tokens ──────────────────────────────────────────────
@@ -548,7 +548,7 @@ const FAQPanel = () => {
       {filtered.length === 0 && (
         <div style={{ textAlign: 'center', padding: 40, color: T.muted }}>
           <HelpCircle size={40} style={{ marginBottom: 12, opacity: 0.3 }} />
-          <p>No FAQs match your search. <a onClick={() => {}} style={{ color: T.accent, cursor: 'pointer' }}>Raise a ticket</a> instead.</p>
+          <p>No FAQs match your search. <button type="button" onClick={() => {}} style={{ color: T.accent, cursor: 'pointer', background: 'none', border: 'none', padding: 0, font: 'inherit', textDecoration: 'underline' }}>Raise a ticket</button> instead.</p>
         </div>
       )}
     </div>

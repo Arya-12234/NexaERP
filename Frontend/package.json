@@ -1,7 +1,8 @@
 {
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "npm run start --prefix erp-system",
+    "build": "npm run build --prefix erp-system",
+    "test": "CI=true npm test --prefix erp-system -- --watchAll=false",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -1,7 +1,17 @@
 venv/
+.venv/
 node_modules/
-.env
 __pycache__/
 *.pyc
 db.sqlite3
-My_ERP/apps/Users/serviceAccountKey.json
+
+# Environment and secrets (never commit credentials)
+.env
+.env.*
+!.env.example
+!**/.env.example
+
+# Firebase / Google service account keys
+*serviceAccount*.json
+**/serviceAccountKey.json
+**/firebase-adminsdk*.json

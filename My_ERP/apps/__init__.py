@@ -1,0 +1,1 @@
+"""NexaERP Django application modules."""

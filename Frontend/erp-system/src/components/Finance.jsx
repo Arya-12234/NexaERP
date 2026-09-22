@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   BookOpen, Building2, Users, ArrowUpCircle, ArrowDownCircle,
-  TrendingUp, TrendingDown, PlusCircle, CheckCircle, Clock,
-  DollarSign, BarChart2, FileText, Shield,
+  TrendingUp, PlusCircle, CheckCircle, Clock,
+  BarChart2, FileText,
   ThumbsUp, XCircle, CreditCard, Download, RefreshCw,
   ChevronRight, Wrench, Trash2, ArrowUp, AlertTriangle,
   Store, Receipt, Banknote, Send, UserCheck, FileX,
-  Activity, Layers, TrendingDown as TDIcon,
 } from 'lucide-react';
 import {
-  AreaChart, Area, BarChart, Bar, XAxis, YAxis,
+  BarChart, Bar, XAxis, YAxis,
   CartesianGrid, Tooltip, ResponsiveContainer,
-  PieChart, Pie, Cell, Legend, RadialBarChart, RadialBar,
-  ComposedChart, Line,
+  PieChart, Pie, Cell,
+  ComposedChart,
 } from 'recharts';
 import { financeApi, payrollApi, assetsApi, apApi, arApi } from '../api';
 
@@ -917,14 +916,14 @@ const APPanel = () => {
   const [payForm, setPayForm]       = useState({ amount: '', payment_method: 'Bank Transfer', payment_date: new Date().toISOString().split('T')[0], reference: '', apply_early_discount: false });
   const [statusFilter, setStatusFilter] = useState('');
 
-  const load = () => {
+  const load = useCallback(() => {
     setLoading(true);
     Promise.all([apApi.getDashboard(), apApi.getAging(), apApi.getVendors(), apApi.getBills(statusFilter ? { status: statusFilter } : {})])
       .then(([dashRes, agingRes, vendorsRes, billsRes]) => { setDashboard(dashRes.data); setAging(agingRes.data); setVendors(vendorsRes.data.results || vendorsRes.data); setBills(billsRes.data.results || billsRes.data); })
       .finally(() => setLoading(false));
-  };
+  }, [statusFilter]);
 
-  useEffect(() => { load(); }, [statusFilter]);
+  useEffect(() => { load(); }, [load]);
 
   const selectBill = async (bill) => { setSelectedBill(bill); setBillDetail(null); setMsg(''); setErr(''); const res = await apApi.getBill(bill.id); setBillDetail(res.data); };
   const action = async (label, fn) => {
@@ -1091,14 +1090,14 @@ const ARPanel = () => {
   const [creditNoteForm, setCreditNoteForm] = useState({ amount: '', reason: '' });
   const [statusFilter, setStatusFilter] = useState('');
 
-  const load = () => {
+  const load = useCallback(() => {
     setLoading(true);
     Promise.all([arApi.getDashboard(), arApi.getAging(), arApi.getCustomers(), arApi.getInvoices(statusFilter ? { status: statusFilter } : {})])
       .then(([dashRes, agingRes, custRes, invRes]) => { setDashboard(dashRes.data); setAging(agingRes.data); setCustomers(custRes.data.results || custRes.data); setInvoices(invRes.data.results || invRes.data); })
       .finally(() => setLoading(false));
-  };
+  }, [statusFilter]);
 
-  useEffect(() => { load(); }, [statusFilter]);
+  useEffect(() => { load(); }, [load]);
 
   const selectInvoice = async (inv) => { setSelectedInvoice(inv); setInvoiceDetail(null); setMsg(''); setErr(''); const res = await arApi.getInvoice(inv.id); setInvoiceDetail(res.data); };
   const action = async (label, fn) => {

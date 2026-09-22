@@ -1,10 +1,13 @@
 import os
+import sys
 from pathlib import Path
+
 from dotenv import load_dotenv
 
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+TESTING = 'test' in sys.argv
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-6*_fraaa&zwqksyt63y(t#f=&u#-ofthkv!syr-_)t^l$ykq!8')
 
@@ -66,17 +69,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Backend.wsgi.application'
 
-# ── PostgreSQL ─────────────────────────────────────────────────
-DATABASES = {
-    'default': {
-        'ENGINE':   'django.db.backends.postgresql',
-        'NAME':     os.getenv('DB_NAME',     'erp_db'),
-        'USER':     os.getenv('DB_USER',     'postgres'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'postgres'),
-        'HOST':     os.getenv('DB_HOST',     'localhost'),
-        'PORT':     os.getenv('DB_PORT',     '5432'),
+# ── Database ───────────────────────────────────────────────────
+if TESTING or os.getenv('USE_SQLITE', '').lower() in ('1', 'true', 'yes'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE':   'django.db.backends.postgresql',
+            'NAME':     os.getenv('DB_NAME',     'erp_db'),
+            'USER':     os.getenv('DB_USER',     'postgres'),
+            'PASSWORD': os.getenv('DB_PASSWORD', 'postgres'),
+            'HOST':     os.getenv('DB_HOST',     'localhost'),
+            'PORT':     os.getenv('DB_PORT',     '5432'),
+        }
+    }
 
 # ── DRF + JWT ──────────────────────────────────────────────────
 REST_FRAMEWORK = {
@@ -98,7 +109,7 @@ CORS_ALLOWED_ORIGINS = [
 
 # ── Firebase Auth Backend ──────────────────────────────────────
 AUTHENTICATION_BACKENDS = [
-    'Backend.apps.Users.backends.FirebaseAuthBackend',
+    'apps.Users.backends.FirebaseAuthBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
 

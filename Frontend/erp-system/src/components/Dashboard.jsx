@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   LayoutDashboard, Package, ShoppingCart, CreditCard,
   BarChart2, HelpCircle, Settings, LogOut, Search,
   Bell, TrendingUp, AlertTriangle, DollarSign,
-  FileText, RefreshCw, CheckCircle, Clock, Activity,
+  FileText, RefreshCw, CheckCircle, Activity,
 } from 'lucide-react';
 import { auth } from '../firebase';
 import { signOut } from 'firebase/auth';
@@ -162,7 +162,7 @@ const DashboardOverview = ({ onNavigate, onNotif }) => {
   const [loading, setLoading]   = useState(true);
   const [lastRefresh, setLastRefresh] = useState(null);
 
-  const load = async () => {
+  const load = useCallback(async () => {
     setLoading(true);
     try {
       const [inv, ord, pur, ar, ap, exec] = await Promise.allSettled([
@@ -183,9 +183,9 @@ const DashboardOverview = ({ onNavigate, onNotif }) => {
       setLastRefresh(new Date().toLocaleTimeString());
     } catch (e) { console.error(e); }
     setLoading(false);
-  };
+  }, [onNotif]);
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => { load(); }, [load]);
 
   if (loading) return (
     <div style={{ display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', height:300, gap:12, color:C.muted }}>

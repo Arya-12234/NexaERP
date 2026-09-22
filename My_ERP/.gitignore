@@ -1,0 +1,19 @@
+# Local environment (template: .env.example)
+.env
+.env.*
+!.env.example
+
+# Firebase Admin SDK — place your key here locally (not committed)
+apps/Users/serviceAccountKey.json
+*serviceAccount*.json
+firebase-adminsdk*.json
+
+# Local database
+db.sqlite3
+test_db.sqlite3
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/

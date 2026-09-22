@@ -5,7 +5,7 @@ from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from django.db import transaction
+from django.db import models, transaction
 from django.utils import timezone
 from decimal import Decimal
 
@@ -538,7 +538,3 @@ class OrdersDashboardView(APIView):
                 status__in=['Pending', 'Dispatched', 'In_Transit']
             ).count(),
         })
-
-
-# Fix missing import
-from django.db import models
